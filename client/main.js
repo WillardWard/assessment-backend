@@ -51,7 +51,6 @@ const postGoal = () => {
 
 goalInput.addEventListener('click', postGoal);
 
-
 const appendGoals = ({ data }) => {
     const goalContainer = document.getElementById('goal-list');
     goalContainer.innerHTML = '';
@@ -60,11 +59,15 @@ const appendGoals = ({ data }) => {
       const goalText = document.createElement('span');
       const deleteButton = handleDeleteButton(id);
       const editButton = handleEditButton(id);
-      goalText.innerText = text
-      goal.append(goalText, deleteButton, editButton)
-      goalContainer.appendChild(goal); 
+      if(text != ''){
+        goalText.innerText = text
+        goal.append(goalText, deleteButton, editButton)
+        goalContainer.appendChild(goal); 
+      }
     })
 }
+
+
 
 const handleDeleteButton = (id) => {
     const deleteButton = document.createElement('button');
@@ -86,7 +89,7 @@ const handleEditButton = (id) => {
     editButton.addEventListener('click', () => {
       const editInput = document.createElement('input');
       const sendEditButton = document.createElement('button');
-      sendEditButton.innerText = "Send Edit!"
+      sendEditButton.innerText = "Edit"
       sendEditButton.addEventListener('click', () => {
         const body = {
           id,
@@ -97,6 +100,8 @@ const handleEditButton = (id) => {
         .catch((err) => {
           console.log(err)
         })
+        document.body.removeChild(editInput);
+        document.body.removeChild(sendEditButton);
       })
       document.body.append(editInput, sendEditButton);
     })
